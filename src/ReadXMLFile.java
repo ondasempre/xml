@@ -1,3 +1,6 @@
+/**
+ * @author hacker-Z
+ */
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -11,16 +14,47 @@ import java.io.PrintStream;
 
 class ReadXMLFile 
 {
-
-	/** Main */ 
-	public static void main(String argv[]) 	
+	/**
+	 * 	@status variable status 
+	 */
+	public static final int status = 0;
+	/** Main */
+	public static void main(String[] args) 	throws IOException
 	{
-		Directory cartella = new Directory();
+		/**
+		 * parameter control 
+		 */
+		if(args[0].length() == 0)
+		{
+			System.out.println("Specificare il nome del file....");
+			System.exit(status);
+		}
+		/** 
+		 * ArrayIndexOutOfBoundsException exception control
+		 */
+		try 
+		{
+			
+		}
+		catch(ArrayIndexOutOfBoundsException exception) 
+		{
+		    handleTheExceptionSomehow(exception);
+		}
 		
+		System.out.println("File caricato => "+ args[0]);
+		
+		/**
+		 * 	Destination folder
+		 * 
+		 * */
+		Directory cartella = new Directory(args[0].substring(0, args[0].length()-4));
+		
+		// Node analyze 
         try 
         {
     	    /** File XML da analizzare */
-    	   	File fXmlFile = new File("/Users/hacker-Z/Desktop/ReadXMLFile/file_1.xml");
+    	   	//File fXmlFile = new File("/Users/hacker-Z/Desktop/ReadXMLFile/file_1.xml");
+    	   	File fXmlFile = new File(args[0]);
     	   	
     	   	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     	   	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -62,12 +96,10 @@ class ReadXMLFile
 //	            }
 	        
 	        //new Directory();
-	        
 	        for (int temp = 0; temp < nListBody.getLength(); temp++) 
             {
             	Node nNode = nListBody.item(temp);
                 //System.out.println("Current Element :: " + nNode.getNodeName());
-        
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) 
                 {
 				        Element eElement = (Element) nNode;
@@ -80,7 +112,8 @@ class ReadXMLFile
 					        System.out.println("FormatoAttachment :: " + eElement.getElementsByTagName("FormatoAttachment").item(j).getTextContent());
 				        	try
 				            {
-				                 FileOutputStream allegato = new FileOutputStream("/Users/hacker-Z/Desktop/ReadXMLFile/allegati/allegato_"+j+".txt");
+				                 //FileOutputStream allegato = new FileOutputStream("/Users/hacker-Z/Desktop/ReadXMLFile/allegati/allegato_"+j+".txt");
+				                 FileOutputStream allegato = new FileOutputStream(args[0].substring(0, args[0].length()-4)+"/allegato_"+j+".txt");
 				                 PrintStream scrivi = new PrintStream(allegato);
 				                 scrivi.print(eElement.getElementsByTagName("Attachment").item(j).getTextContent());
 				            }
@@ -97,8 +130,15 @@ class ReadXMLFile
        } catch (Exception e) {
         e.printStackTrace();
        }
-       System.out.println(cartella.getNameFileDir());
+       //System.out.println(cartella.getNameFileDir());
+       /** Creazione del file XML di backup (64k) */ 
+       Copy.backup(args[0]); 
     }
+
+	private static void handleTheExceptionSomehow(ArrayIndexOutOfBoundsException exception) 
+	{
+		System.out.println("error..");
+	}
 	
 
 }

@@ -1,3 +1,6 @@
+/**
+ * @author hacker-Z
+ */
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -15,26 +18,30 @@ import java.util.Arrays;
 
 public class Directory 
 {
-	/** @listXML contiene i nomi dei file XML da analizzare */
+	/** 
+	 * @listXML contiene i nomi dei file XML da analizzare
+	 *  */
 	private ArrayList<String> listXML = new ArrayList<String>();
+	private String nomeFile = "";
 	
 	public Directory()
 	{
 		/** Crea cartella per l'inserimento dei dati estratti. */
-		File file = new File("/Users/hacker-Z/Desktop/ReadXMLFile/allegati");
-	        if (!file.exists()) 
+		//File file = new File("/Users/hacker-Z/Desktop/ReadXMLFile/allegati");
+		File file = new File("allegati");
+	    if (!file.exists()) 
+	    {
+	    	if (file.mkdir()) 
 	        {
-	            if (file.mkdir()) 
-	            {
-	                System.out.println("Directory is created!");
-	            } else 
-	            {
-	                System.out.println("Failed to create directory! (..)");
+	    		System.out.println("Directory is created!");
+	        } else {
+	            System.out.println("Failed to create directory! (..)");
 	            }
 	        }      
 	}
 	
-	/** Costruttore con parametro stringa 
+	/** 
+	 * Costruttore con parametro stringa 
 	 * 
 	 * @str nome della directory da creare
 	 * 
@@ -42,8 +49,9 @@ public class Directory
 	public Directory(String str)
 	{
 		/** Crea cartella per l'inserimento dei dati estratti. */
-		File file = new File("/Users/hacker-Z/Desktop/ReadXMLFile/");
-	        if (!file.exists()) 
+		//File file = new File("/Users/hacker-Z/Desktop/ReadXMLFile/");
+		File file = new File(str);
+	        //if (!file.exists() && file.isDirectory()) 
 	        {
 	            if (file.mkdir()) 
 	            {
@@ -72,7 +80,7 @@ public class Directory
 	/** Recupera i nomi dei file all'interno della directory */
 	public ArrayList<String> getNameFileDir() 
 	{
-		File files = new File("/Users/hacker-Z/Desktop/ReadXMLFile/");
+		File files = new File(nomeFile);
 		
 		if(files.isDirectory())
 		{
